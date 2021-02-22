@@ -20,7 +20,7 @@ module.exports = {
             //处理css
             {
                 test: /\.css$/,
-                use: ['style-loade', 'css-loader']
+                use: ['style-loader', 'css-loader']
             },
             //处理图片
             {
@@ -41,18 +41,19 @@ module.exports = {
                 exclude:/\.(html|css|js|css|less|jpg|png)$/,
                 loader:'file-loader',
                 options:{
-                    name:'[hash]:10.[ext]'
+                    name:'[hash:10].[ext]'
                 }
             }
         ]
     },
     plugins:[
         new HtmlWebpackPlugin({
-            template:'./src/index.js'
+            template:'./src/index.html'
         })
     ],
     devServer:{
         contentBase: resolve(__dirname,'build'),
+        //启动gzip压缩
         compress:true,
         port:3000,
         open:true
