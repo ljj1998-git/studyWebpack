@@ -39,6 +39,49 @@ module.exports = {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
+            //eslint
+            {
+                test:/\.js$/,
+                exclude:/node_modules/,
+                //优先执行
+                enforce:'pre',
+                loader:'eslint-loader',
+                options:{
+                    //自动修复
+                    fix:true
+                }
+            },
+            //处理js
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    //预设：只是babel做怎样的兼容性处理
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                //按需加载
+                                useBuiltIns: 'usage',
+                                //置顶core-js版本
+                                corejs: {
+                                    version: 3
+                                },
+                                //置顶兼容性做到哪个版本浏览器
+                                targets: {
+                                    chrome: '60',
+                                    firefox: '60',
+                                    ie: 9,
+                                    safari: '10',
+                                    edge: '17'
+                                }
+                            }
+                        ]
+
+                    ]
+                }
+            },
             //处理图片
             {
                 test: /\.(jpg|png)$/,

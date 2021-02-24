@@ -71,10 +71,27 @@ module.exports = {
  * 
  *  source-map 外部（错误代码准确信息 和 源代码的错误位置）
  *  inline-source-map  内联（错误代码准确信息 和 源代码的错误位置）
- *  hidden-source-map  外联（错误代码错误信息,但是没有错误位置，不能追踪源代码错误，只能提示到构建后代码的错误位置）
- *  eval-source-map  内联（每一个文件都会生成对应的source-map）
- *  cheap-source-map 外部
- *  
+ *  hidden-source-map  外部（错误代码错误信息,但是没有错误位置，不能追踪源代码错误，只能提示到构建后代码的错误位置）
+ *  eval-source-map  内联（每一个文件都会生成对应的source-map,都在eval错误代码准确信息 和 源代码的错误位置）
+ *  nosources-source-map: 外部（错误代码准确信息，但是没有任何源代码信息
+ *  cheap-source-map 外部(错误代码准确信息 和 源代码的错误位置，但是只精确到行)
+ *  cheap-module-source-map 外部(错误代码准确信息 和 源代码的错误位置)
  * 
+ *  
  *  内联 和 外联的区别：1.外部生成了文件，内联没有 2.内联构建速度更快
+ * 
+ * 开发环境:速度快，调试更友好
+ *      速度快(eval > inline > cheap >...)
+ *      eval-cheap-source-map最快
+ *      eval-source-map
+ *      调试更友好
+ *      source-map
+ *      cheap-module-source-map
+ *      cheap-source-map
+ * 生产环境:源代码要不要隐藏？调试更友好
+ *      nosources-source-map 全部隐藏
+ *      hidden-source-map
+ * 
+ * 
+ * 
  */
