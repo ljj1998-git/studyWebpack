@@ -1,25 +1,14 @@
 /**
- * 
- * 缓存：
- *  babel缓存
- *      cacheDirectory:true
- *  文件资源缓存
- *      hash:每次webpack构建时会生成一个惟一的hash值
- *      问题：因为js和css同时使用一个hash值
- *      chunkhash：根据chunk生成的hash值。如果打包来源于同一个chunk，那么hash值一样
- *      问题：js和css的还是值还是一样的
- *      因为css是在js中被引入的，所以同属于一个chunk
- *      contenthash：根据文件的内容生成hash值，不同文件hash值一定不一样
- *      --> 让代码上线运行缓存更好使用
- * 
+ * PWA:渐进式网络开发应用程序（离线可访问）
+ *  workbox --> workbox-webpack-plugin
  */
-
 
 const {
     resolve
 } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin')
+const workboxWebpackPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
     entry: './src/js/index.js',
@@ -100,6 +89,16 @@ module.exports = {
         }),
         new miniCssExtractPlugin({
             filename:'css/build.[hash:10].css'
+        }),
+        new workboxWebpackPlugin.GenerateSW({
+            /**
+             * 1.帮助serviceworker快速启动
+             * 2.删除旧的 serviceworker
+             * 
+             * 生成一个 serviceworker 配置文件
+             */
+            clientsClaim:true,
+            skipWaiting:true
         })
     ],
     devServer: {
@@ -111,5 +110,5 @@ module.exports = {
         //开启HMR功能
         hot: true
     },
-    mode: 'development',
+    mode: 'production',
 }

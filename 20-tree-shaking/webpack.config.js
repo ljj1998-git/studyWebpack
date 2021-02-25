@@ -1,19 +1,13 @@
 /**
+ * tree-shaking 去除无用代码
+ *  前提：1.必须使用ES6模块化 2.开启production
+ *  作用：减少代码体积
  * 
- * 缓存：
- *  babel缓存
- *      cacheDirectory:true
- *  文件资源缓存
- *      hash:每次webpack构建时会生成一个惟一的hash值
- *      问题：因为js和css同时使用一个hash值
- *      chunkhash：根据chunk生成的hash值。如果打包来源于同一个chunk，那么hash值一样
- *      问题：js和css的还是值还是一样的
- *      因为css是在js中被引入的，所以同属于一个chunk
- *      contenthash：根据文件的内容生成hash值，不同文件hash值一定不一样
- *      --> 让代码上线运行缓存更好使用
- * 
+ *  在package.json中配置
+ *      "sideEffects":false 所有代码都没有副作用(都可以进行tree-shaking)
+ *      问题：可能会把css / @babel/polyfill  文件干掉
+ *      解决："sideEffects":["*.css"]
  */
-
 
 const {
     resolve
@@ -111,5 +105,5 @@ module.exports = {
         //开启HMR功能
         hot: true
     },
-    mode: 'development',
+    mode: 'production',
 }
