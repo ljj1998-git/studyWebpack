@@ -24,6 +24,8 @@
     }
 </script>
 
-<style lang="scss">
-
+<style lang='sass'>
+.box{
+    color: red;
+}
 </style>

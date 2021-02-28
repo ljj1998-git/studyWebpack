@@ -1,4 +1,6 @@
-const { resolve } = require('path')
+const {
+    resolve
+} = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -11,8 +13,7 @@ module.exports = {
         path: resolve(__dirname, 'build')
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
@@ -23,8 +24,7 @@ module.exports = {
                 }
             }, {
                 test: /\.vue$/,
-                use: [
-                    {
+                use: [{
                         loader: 'cache-loader'
                     },
                     {
@@ -41,62 +41,50 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(scss|sass)$/,
-                use: [
-                    {
-                        loader: 'vue-style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            implementation: require('dart-sass')
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: [
-                                require("autoprefixer") /*自动添加前缀*/
-                            ]
-                        }
-                    }
-                ]
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-                use: [{
-                  loader: 'url-loader',
-                  options: {
-                    limit: 10000
-                  }
-                }]
-            },
-            {
                 test: /\.css$/,
                 use: [
-                  'style-loader',
-                  'css-loader',
+                    'style-loader',
+                    'css-loader',
                 ]
-              }
+            },
+            {
+                test: /\.sass$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader'
+                    },
+                    'sass-loader',
+                ]
+            },
+            {
+                exclude: /\.(css|js|html)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[hash:10].[ext]'
+                }
+            }
+
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: resolve(__dirname,'index.html'),
-            filename:'index.html'
+            template: resolve(__dirname, 'index.html'),
+            filename: 'index.html'
         }),
         new VueLoaderPlugin(),
-        // new OptimizeCssAssetsWebpackPlugin()
+        new MiniCssExtractPlugin({
+            filename: 'css/main.css'
+        }),
+        new OptimizeCssAssetsWebpackPlugin()
     ],
     mode: 'development',
-    devServer:{
-        port:3000,
+    devServer: {
+        port: 3000,
         //启动gzip压缩
         compress: true,
-        open:true,
+        open: true,
     },
     target: "web"
 }
